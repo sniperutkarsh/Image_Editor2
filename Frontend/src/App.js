@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Header from './components/Header';
 import ImageEditor from './components/ImageEditor';
+import Auth from './components/Auth';
 function App() {
   return (
     <div >
@@ -13,7 +14,11 @@ function App() {
         <Routes>
           <Route element= {<Login></Login>} path='login'/>
           <Route element= {<Signup></Signup>} path='signup'/>
-          <Route element= {<ImageEditor/>} path='editor'/>
+          <Route element= {
+          <Auth>
+            <ImageEditor/>
+          </Auth>
+          } path='editor'/>
           
         
 

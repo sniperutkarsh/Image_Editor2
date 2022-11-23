@@ -2,8 +2,10 @@ import React from "react";
 import "./reg.css";
 import { Formik } from "formik";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const loginsubmit = async (formdata, { resetForm }) => {
     console.log(formdata);
 
@@ -23,6 +25,7 @@ const Login = () => {
         title: "success",
         text: "Loggedin successfully",
       });
+      navigate('/editor');
     } else if (response.status === 401) {
       Swal.fire({
         icon: "error",
