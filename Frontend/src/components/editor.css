@@ -1,0 +1,11 @@
+.editor-image{
+    height: 70vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.filterPanel{
+    height: 60vh;
+    overflow: auto;
+}
