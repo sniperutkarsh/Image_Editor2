@@ -11,7 +11,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
     <div>
       <div
         className="p-3 fw-bold radius-curve"
-        style={{ background: "#1a3847" }}
+        style={{ background: "#009970" }}
       >
         <label class="form-label text-white" for={options.property}>
           {options.name}
@@ -142,7 +142,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
       
       <div
         className="editor-cont margin-below-navbar "
-        style={{ background: "#1a3847" }}
+        style={{ background: "#009970" }}
       >
         <p className="page-title" style={{ color: "white" }}>
           Image Editor
@@ -151,7 +151,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
           <div className="row">
             <div className="col-md-2">
               <div className="card saved-filters">
-                <div className="card-body" style={{ background: "#EEDD82" }}>
+                <div className="card-body" style={{ background: "#a3a4a4" }}>
                   <h5 className="text-center fw-bold">Available Filters</h5>
                   <hr />
                   <Filters
@@ -166,7 +166,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
               </div>
             </div>
             <div className="col-md-7">
-              <div className="card editor" style={{ background: "#EEDD82" }}>
+              <div className="card editor" style={{ background: "#a3a4a4" }}>
               
                 <div className="card-body">
                   
@@ -200,7 +200,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
             </div>
             <div className="col-md-3">
               <div className="card editor-toolbox">
-                <div className="card-body" style={{ background: "#EEDD82" }}>
+                <div className="card-body" style={{ background: "#a3a4a4" }}>
                   <div class="accordion" id="accordion-filter">
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="heading-filter">

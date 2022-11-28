@@ -65,17 +65,7 @@ const DEFAULT_OPTIONS = [
     unit: 'deg',
     backgroundColor: "#41B3A3"
   },
-  {
-    name: 'Blur',
-    property: 'blur',
-    value: 0,
-    range: {
-      min: 0,
-      max: 20
-    },
-    unit: 'px',
-    backgroundColor: "#E27D60"
-  },
+  
   {
     name: 'Blur',
     property: 'blur',
