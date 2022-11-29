@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Filters from "./Filters";
 import { useNavigate } from "react-router-dom";
 import DEFAULT_OPTIONS from "./DefaultValues";
 import './editor.css';
+import { useScreenshot, createFileName } from 'use-react-screenshot'
 
 const FilterSlider = ({ options, updateFilterOptions, index }) => {
   
@@ -39,22 +40,32 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
 };
 
   const ImageEditor = () => {
+    const ref = createRef(null)
   const navigate = useNavigate();
   const [options, setOptions] = useState(DEFAULT_OPTIONS);
   const [mainImg, setMainImg] = useState(sessionStorage.getItem("mainImg"));
   const [filterName, setFilterName] = useState("");
   const [filterArray, setFilterArray] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [image, takeScreenshot] = useScreenshot({type: "image/jpeg"})
+  
   useEffect(() => {
     let image = sessionStorage.getItem("mainImg");
     if (image) {
       setMainImg(image);
     }
-
+    
     document.body.addEventListener("drop", (e) => e.preventDefault());
   }, []);
 
+  const download = (image, { name = "img", extension = "jpg" } = {}) => {
+    const a = document.createElement("a");
+    a.href = image;
+    a.download = createFileName(extension, name);
+    a.click();
+  };
+  
+  const getImage = () => takeScreenshot(ref.current).then(download);
   const updateFilters = (index, val) => {
     let newOptions = [...options];
     newOptions[index]["value"] = val;
@@ -166,7 +177,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
               </div>
             </div>
             <div className="col-md-7">
-              <div className="card editor" style={{ background: "#a3a4a4" }}>
+              <div className="card editor" ref={ref} style={{ background: "#a3a4a4" }}>
               
                 <div className="card-body">
                   
@@ -190,7 +201,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
                   />
 
                   <div className="editor-image" style={getImageStyle()} />
-
+                    <button onClick={getImage}>Download</button>
                  
                 </div>
                 
