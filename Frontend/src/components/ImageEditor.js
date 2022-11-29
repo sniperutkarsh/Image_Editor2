@@ -144,7 +144,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
         className="editor-cont margin-below-navbar "
         style={{ background: "#009970" }}
       >
-        <p className="page-title" style={{ color: "white" }}>
+        <p className="page-title m-0 p-3 h3 text-center fw-bold" style={{ color: "#009970", backgroundColor: 'white' }}>
           Image Editor
         </p>
         <div className="container-fluid">
