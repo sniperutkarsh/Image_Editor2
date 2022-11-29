@@ -47,7 +47,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
   const [filterName, setFilterName] = useState("");
   const [filterArray, setFilterArray] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [image, takeScreenshot] = useScreenshot({type: "image/jpeg"})
+  const [image, takeScreenshot] = useScreenshot()
   
   useEffect(() => {
     let image = sessionStorage.getItem("mainImg");
@@ -177,7 +177,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
               </div>
             </div>
             <div className="col-md-7">
-              <div className="card editor" ref={ref} style={{ background: "#a3a4a4" }}>
+              <div className="card editor"  style={{ background: "#a3a4a4" }}>
               
                 <div className="card-body">
                   
@@ -200,7 +200,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
                     onChange={(e) => uploadImage(e)}
                   />
 
-                  <div className="editor-image" style={getImageStyle()} />
+                  <div ref={ref} className="editor-image" style={getImageStyle()} />
                     <button onClick={getImage}>Download</button>
                  
                 </div>
