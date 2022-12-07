@@ -38,7 +38,7 @@ router.get("/getall", (req, res) => {
     });
 });
 
-router.get("/getbyuser/:useridn", (req, res) => {
+router.get("/getbyuser/:userid", (req, res) => {
   
   Model.find({ createdBy: req.params.userid })
     .then((result) => {

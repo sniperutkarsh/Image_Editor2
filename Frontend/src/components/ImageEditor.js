@@ -4,7 +4,8 @@ import Filters from "./Filters";
 import { useNavigate } from "react-router-dom";
 import DEFAULT_OPTIONS from "./DefaultValues";
 import './editor.css';
-import { useScreenshot, createFileName } from 'use-react-screenshot'
+// import { useScreenshot, createFileName } from 'use-react-screenshot'
+import html2canvas from "html2canvas";
 
 const FilterSlider = ({ options, updateFilterOptions, index }) => {
   
@@ -40,6 +41,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
 };
 
   const ImageEditor = () => {
+    const [currentImage, setCurrentImage] = useState(null);
     const ref = createRef(null)
   const navigate = useNavigate();
   const [options, setOptions] = useState(DEFAULT_OPTIONS);
@@ -47,7 +49,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
   const [filterName, setFilterName] = useState("");
   const [filterArray, setFilterArray] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [image, takeScreenshot] = useScreenshot()
+  // const [image, takeScreenshot] = useScreenshot()
   
   useEffect(() => {
     let image = sessionStorage.getItem("mainImg");
@@ -58,14 +60,53 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
     document.body.addEventListener("drop", (e) => e.preventDefault());
   }, []);
 
-  const download = (image, { name = "img", extension = "jpg" } = {}) => {
-    const a = document.createElement("a");
-    a.href = image;
-    a.download = createFileName(extension, name);
-    a.click();
-  };
+  // const download = (image, { name = "img", extension = "jpg" } = {}) => {
+  //   const a = document.createElement("a");
+  //   a.href = image;
+  //   a.download = createFileName(extension, name);
+  //   a.click();
+  // };
   
-  const getImage = () => takeScreenshot(ref.current).then(download);
+  // const getImage = () => takeScreenshot(ref.current).then(download);
+
+  //Creating dynamic link that automatically click
+function downloadURI(uri, name) {
+  var link = document.createElement("a");
+  link.download = name;
+  link.href = uri;
+  link.click();
+  //after creating link you should delete dynamic link
+  //clearDynamicLink(link); 
+}
+
+//Your modified code.
+function printToFile() {
+  html2canvas(ref.current).then((canvas) => {
+    let im = new Image();
+    im.src = canvas.toDataURL("image/png");
+    const ctx = canvas.getContext('2d');
+    ctx.filter = 'contrast(1.4) sepia(1)';
+    ctx.drawImage(im, 0, 0);
+    // img.crossOrigin="anonymous"
+    var img = canvas.toDataURL("image/png");
+    console.log(img);
+    //create your own dialog with warning before saving file
+    //beforeDownloadReadMessage();
+    //Then download file
+    downloadURI("data:" + img, "yourImage.png");
+  })
+  // html2canvas(ref.current, {
+  //     onrendered: function (canvas) {
+  //         var myImage = canvas.toDataURL("image/png");
+  //         console.log(myImage);
+  //         //create your own dialog with warning before saving file
+  //         //beforeDownloadReadMessage();
+  //         //Then download file
+  //         downloadURI("data:" + myImage, "yourImage.png");
+  //     }
+  // });
+}
+
   const updateFilters = (index, val) => {
     let newOptions = [...options];
     newOptions[index]["value"] = val;
@@ -92,6 +133,17 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
     // setSelThumbnail(file.name)
     const fd = new FormData();
     fd.append("myfile", file);
+    // console.log(file);
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      // convert image file to base64 string
+      // preview.src = reader.result;
+      setCurrentImage(reader.result)
+      console.log(reader.result);
+    }, false);
+    if (file) {
+      reader.readAsDataURL(file);
+    }
     fetch("http://localhost:5000/util/uploadfile", {
       method: "POST",
       body: fd,
@@ -102,7 +154,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
         res.json().then((data) => {
           console.log(data);
           setMainImg(data.url)
-          
+          // setCurrentImage();
           sessionStorage.setItem("mainImg", data.url);
         });
       }
@@ -145,7 +197,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
     // filters.push(`url(${mainImg})`);
     // console.log({ filter: filters.join(" ") });
 
-    return { filter: filters.join(" "), backgroundImage: `url(${mainImg})` };
+    return { filter: filters.join(" "), backgroundImage: `url(${currentImage})` };
   }
 
   return (
@@ -200,8 +252,8 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
                     onChange={(e) => uploadImage(e)}
                   />
 
-                  <div ref={ref} className="editor-image" style={getImageStyle()} />
-                    <button onClick={getImage}>Download</button>
+                  <div ref={ref} className="editor-image" style={getImageStyle()} crossorigin="anonymous" />
+                    <button className="btn btn-primary w-100" onClick={printToFile}>Download</button>
                  
                 </div>
                 

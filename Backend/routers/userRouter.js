@@ -6,7 +6,7 @@ const router =express.Router();
 const Model = require('../models/userModel');
 const bcrypt= require('bcryptjs');
 const salt= bcrypt.genSaltSync(10);
-console.log(salt);
+// console.log(salt);
 
 
 // router endpoints
